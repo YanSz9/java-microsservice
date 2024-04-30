@@ -1,5 +1,7 @@
 package com.correa.microsservicepoc.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -30,5 +32,7 @@ public interface ProposalMapper {
     @Mapping(target = "phone", source = "user.phone")
     @Mapping(target = "income", source = "user.income")
     ProposalResponseDto convertEntityToDto(Proposal proposal);
+
+    List<ProposalResponseDto> convertListEntityToListDto(Iterable<Proposal> proposal);
 
 }

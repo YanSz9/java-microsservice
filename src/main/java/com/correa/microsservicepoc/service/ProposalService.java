@@ -1,5 +1,7 @@
 package com.correa.microsservicepoc.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.correa.microsservicepoc.dto.ProposalRequestDto;
@@ -21,4 +23,9 @@ public class ProposalService {
 
         return ProposalMapper.INSTANCE.convertEntityToDto(proposal);
     }
+
+    public List<ProposalResponseDto> getProposal() {
+        return ProposalMapper.INSTANCE.convertListEntityToListDto(proposalRepository.findAll());
+    }
+
 }
