@@ -1,5 +1,6 @@
 package com.correa.microsservicepoc.mapper;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import org.mapstruct.Mapper;
@@ -31,8 +32,12 @@ public interface ProposalMapper {
     @Mapping(target = "cpf", source = "user.cpf")
     @Mapping(target = "phone", source = "user.phone")
     @Mapping(target = "income", source = "user.income")
+    @Mapping(target = "requestedAmount", expression = "java(setRequestedAmount(proposal))")
     ProposalResponseDto convertEntityToDto(Proposal proposal);
 
     List<ProposalResponseDto> convertListEntityToListDto(Iterable<Proposal> proposal);
 
+    default String setRequestedAmount(Proposal proposal) {
+        return NumberFormat.getCurrencyInstance().format(proposal.getRequestedAmount());
+    }
 }
