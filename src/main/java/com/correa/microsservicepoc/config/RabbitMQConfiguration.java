@@ -2,6 +2,10 @@ package com.correa.microsservicepoc.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,5 +30,15 @@ public class RabbitMQConfiguration {
     @Bean
     public Queue createQueueProposalCompletedMsNotification() {
         return QueueBuilder.durable("proposal-completed.ms-notification").build();
+    }
+
+    @Bean
+    public RabbitAdmin createRabbitAdmin(ConnectionFactory connectionFactory) {
+        return new RabbitAdmin(connectionFactory);
+    }
+
+    @Bean
+    public ApplicationListener<ApplicationReadyEvent> initializeAdmin(RabbitAdmin rabbitAdmin) {
+        return event -> rabbitAdmin.initialize();
     }
 }
