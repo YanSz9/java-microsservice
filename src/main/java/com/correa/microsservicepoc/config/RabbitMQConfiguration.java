@@ -1,5 +1,7 @@
 package com.correa.microsservicepoc.config;
 
+import org.springframework.amqp.core.ExchangeBuilder;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -41,4 +43,9 @@ public class RabbitMQConfiguration {
     public ApplicationListener<ApplicationReadyEvent> initializeAdmin(RabbitAdmin rabbitAdmin) {
         return event -> rabbitAdmin.initialize();
     }
+
+    public FanoutExchange creatFanoutExchange() {
+        return ExchangeBuilder.fanoutExchange("pending-proposal.ex").build();
+    }
+    
 }
