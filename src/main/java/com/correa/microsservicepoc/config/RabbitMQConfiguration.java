@@ -46,6 +46,7 @@ public class RabbitMQConfiguration {
         return event -> rabbitAdmin.initialize();
     }
 
+    @Bean
     public FanoutExchange createFanoutExchangePendingProposal() {
         return ExchangeBuilder.fanoutExchange("pending-proposal.ex").build();
     }
