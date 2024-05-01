@@ -1,5 +1,7 @@
 package com.correa.microsservicepoc.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
@@ -44,8 +46,20 @@ public class RabbitMQConfiguration {
         return event -> rabbitAdmin.initialize();
     }
 
-    public FanoutExchange creatFanoutExchange() {
+    public FanoutExchange createFanoutExchangePendingProposal() {
         return ExchangeBuilder.fanoutExchange("pending-proposal.ex").build();
     }
-    
+
+    @Bean
+    public Binding createBindingPendingProposalMsCreditAnalisys() {
+        return BindingBuilder.bind(createQueuePendingProposalMsCreditAnalisys())
+                .to(createFanoutExchangePendingProposal());
+    }
+
+    @Bean
+    public Binding createBindingPendingProposalMsNotification() {
+        return BindingBuilder.bind(createQueuePendingProposalMsNotification())
+                .to(createFanoutExchangePendingProposal());
+    }
+
 }
