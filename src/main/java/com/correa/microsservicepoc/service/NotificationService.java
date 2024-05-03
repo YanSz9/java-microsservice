@@ -4,6 +4,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import com.correa.microsservicepoc.dto.ProposalResponseDto;
+import com.correa.microsservicepoc.entity.Proposal;
 
 import lombok.AllArgsConstructor;
 
@@ -13,7 +14,7 @@ public class NotificationService {
 
     private RabbitTemplate rabbitTemplate;
 
-    public void Notificate(ProposalResponseDto proposal, String exchange) {
+    public void notificate(Proposal proposal, String exchange) {
         rabbitTemplate.convertAndSend(exchange, "", proposal);
     }
 }

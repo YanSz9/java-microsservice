@@ -29,10 +29,13 @@ public class ProposalService {
         Proposal proposal = ProposalMapper.INSTANCE.convertDtoToProposal(requestDto);
         proposalRepository.save(proposal);
 
-        ProposalResponseDto response = ProposalMapper.INSTANCE.convertEntityToDto(proposal);
-        notificationService.Notificate(response, exchange);
+        notificationService.notificate(proposal, exchange);
 
-        return response;
+        return ProposalMapper.INSTANCE.convertEntityToDto(proposal);
+    }
+
+    private void notificate(Proposal proposal) {
+        notificationService.notificate(proposal, exchange);
     }
 
     public List<ProposalResponseDto> getProposal() {
