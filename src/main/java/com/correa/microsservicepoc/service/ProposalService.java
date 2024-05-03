@@ -28,14 +28,19 @@ public class ProposalService {
     public ProposalResponseDto create(ProposalRequestDto requestDto) {
         Proposal proposal = ProposalMapper.INSTANCE.convertDtoToProposal(requestDto);
         proposalRepository.save(proposal);
-
-        notificationService.notificate(proposal, exchange);
+        notificateRabbitMq(proposal);
 
         return ProposalMapper.INSTANCE.convertEntityToDto(proposal);
     }
 
-    private void notificate(Proposal proposal) {
-        notificationService.notificate(proposal, exchange);
+    private void notificateRabbitMq(Proposal proposal) {
+        try {
+            notificationService.notificate(proposal, exchange);
+
+        } catch (RuntimeException ex) {
+            proposal.setIntegrated(false);
+            proposalRepository.save(proposal);
+        }
     }
 
     public List<ProposalResponseDto> getProposal() {

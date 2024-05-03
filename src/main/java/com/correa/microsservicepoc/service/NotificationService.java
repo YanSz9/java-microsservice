@@ -3,7 +3,6 @@ package com.correa.microsservicepoc.service;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
-import com.correa.microsservicepoc.dto.ProposalResponseDto;
 import com.correa.microsservicepoc.entity.Proposal;
 
 import lombok.AllArgsConstructor;
