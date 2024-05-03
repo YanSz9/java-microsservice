@@ -14,14 +14,14 @@ import com.correa.microsservicepoc.repository.ProposalRepository;
 @Service
 public class ProposalService {
     private ProposalRepository proposalRepository;
-    private NotificationService notificationService;
+    private NotificationRabbitService notificationRabbitService;
     private String exchange;
 
     public ProposalService(ProposalRepository proposalRepository,
-            NotificationService notificationService,
+            NotificationRabbitService notificationRabbitService,
             @Value("${rabbitmq.pendingproposal.exchange}") String exchange) {
         this.proposalRepository = proposalRepository;
-        this.notificationService = notificationService;
+        this.notificationRabbitService = notificationRabbitService;
         this.exchange = exchange;
     }
 
@@ -35,7 +35,7 @@ public class ProposalService {
 
     private void notificateRabbitMq(Proposal proposal) {
         try {
-            notificationService.notificate(proposal, exchange);
+            notificationRabbitService.notificate(proposal, exchange);
 
         } catch (RuntimeException ex) {
             proposal.setIntegrated(false);
